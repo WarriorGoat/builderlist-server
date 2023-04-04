@@ -5,4 +5,4 @@ const allowedOrigins = [
   "https://builderlist.com",
 ];
 
-module.export = allowedOrigins;
+module.exports = allowedOrigins;
