@@ -1,21 +1,21 @@
 const express = require ('express');
-const blogRoutes = express.Router();
+const entryRoutes = express.Router();
 const { v4: uuidv4 } = require ("uuid");
-const blogsController = require('../controllers/blogsController');
+const entryController = require('../controllers/entryController');
 uuidv4();
 
 // GET All Blog Posts
-blogRoutes.get('/all',blogsController.getAllBlogs);
+entryRoutes.get('/all',entryController.getAllEntrys);
 
 // This section will pull a single record, using the a dynamic id paramter.
-blogRoutes.get('/getOne/:id', blogsController.getOneBlog
+entryRoutes.get('/getOne/:id', entryController.getOneEntry
 );
 
 //add a new post
-blogRoutes.post("/create-one", blogsController.createOneBlog);
+entryRoutes.post("/create-one", entryController.createOneEntry);
 
 // This section will help you delete a record.
-blogRoutes.delete('/deleteOne/:id', blogsController.deleteOneBlog); 
+entryRoutes.delete('/deleteOne/:id', entryController.deleteOneEntry); 
  
 
 // This section will help you retrieve multiple records and sort them.
@@ -24,4 +24,4 @@ blogRoutes.delete('/deleteOne/:id', blogsController.deleteOneBlog);
 
 
 
-module.exports = blogRoutes;
+module.exports = entryRoutes;

@@ -1,23 +1,23 @@
 
 
-const Blog = require('../models/Blogs');
+const Entry = require('../models/Entrys');
 
 //Request and display all blogs
-async function getAllBlogs(req, res) {
+async function getAllEntrys(req, res) {
 
     //query blogs 
     try {
-      const allBlogs = await Blog.find({});
+      const allEntrys = await Entry.find({});
       res.json({
         success: true,
-        blogs: allBlogs });
+        blogs: allEntrys });
     }catch(e){
       console.log(`Error Point 1` + e);
     }
 }
 
 //Create a new blog
-async function createOneBlog(req, res, next) {
+async function createOneEntry(req, res, next) {
     try {
       //parse out fields from POST request
       const title  = req.body.title; 
@@ -26,8 +26,8 @@ async function createOneBlog(req, res, next) {
       const categories = req.body.category;
       const year =  req.body.year;
   
-      //pass fields to new Blog model 
-      const newBlog = new Blog({
+      //pass fields to new Entry model 
+      const newEntry = new Entry({
           title,
           text,
           author,
@@ -36,7 +36,7 @@ async function createOneBlog(req, res, next) {
       });
   
       //save our new entry to the database 
-      const savedData =  await newBlog.save();
+      const savedData =  await newEntry.save();
       
       //return the successful request to the user 
       res.json({
@@ -54,11 +54,11 @@ async function createOneBlog(req, res, next) {
   }
 
 // This section will pull a single record, using the a dynamic id paramter.
-async function getOneBlog(req, res, next) {
+async function getOneEntry(req, res, next) {
 
   try {
-    const oneBlog = await Blog.findOne({"id": req.params.id});
-    res.json({blog: oneBlog});
+    const oneEntry = await Entry.findOne({"id": req.params.id});
+    res.json({entry: oneEntry});
   }
   catch (error) {
     res.status(500).send(error);
@@ -66,11 +66,11 @@ async function getOneBlog(req, res, next) {
 };
 
 // This section will pull a single record, using the a dynamic id paramter.
-async function deleteOneBlog(req, res, next) {
+async function deleteOneEntry(req, res, next) {
   try {
-    const oneBlog = await Blog.findOneAndRemove({"id": req.params.id});
+    const oneEntry = await Entry.findOneAndRemove({"id": req.params.id});
     res.json({message: "Removed", 
-      blog: oneBlog});
+      entry: oneEntry});
   }
   catch (error) {
     res.status(500).send(error);
@@ -78,8 +78,8 @@ async function deleteOneBlog(req, res, next) {
 };
 
 module.exports = {
-    getAllBlogs,
-    createOneBlog,
-    getOneBlog,
-    deleteOneBlog
+    getAllEntrys,
+    createOneEntry,
+    getOneEntry,
+    deleteOneEntry
 };
