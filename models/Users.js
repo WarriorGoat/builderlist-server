@@ -20,4 +20,4 @@ const userSchema = new mongoose.Schema({
 
 
 //Register the model and make it available to other files and define the database collection
-module.exports = User= mongoose.model("users", userSchema);
+module.exports = Users = mongoose.model("Users", userSchema);

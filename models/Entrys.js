@@ -16,4 +16,4 @@ const entrySchema = new mongoose.Schema({
 
 
 //Register the model and make it available to other files
-module.exports = Entrys= mongoose.model("entrys", entrySchema);
+module.exports = Entrys = mongoose.model("Entries", entrySchema);
