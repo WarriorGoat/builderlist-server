@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const createError = require("http-errors");
+// const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const { logger } = require("./middleware/logger");
@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, "public")));
 //register routes
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("./entrys", entrysRouter);
+app.use("/entrys", entrysRouter);
 
 // catch 404 and forward to 404 error page
 app.all('*', (req, res) => {

@@ -14,7 +14,7 @@ async function getAllUsers(req, res) {
     const allUsers = await User.find({});
     res.json({
       success: true,
-      blogs: allUsers,
+      users: allUsers,
     });
   } catch (e) {
     console.log(`Error Point 1` + e);
@@ -48,7 +48,7 @@ const registration = async (req, res, next) => {
     //return the successful request to the user
     res.json({
       success: true,
-      blogs: savedData,
+      user: savedData,
     });
   } catch (e) {
     console.log(typeof e);
@@ -138,9 +138,21 @@ const message = (req, res, next) => {
   }
 };
 
+const updateUser = (req, res, next) => {
+
+
+}
+
+const deleteUser = (req, res, next) => {
+
+
+}
+
 module.exports = {
   getAllUsers,
   registration,
   logIn,
   message,
+  updateUser,
+  deleteUser
 };

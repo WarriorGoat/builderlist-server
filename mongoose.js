@@ -12,10 +12,10 @@ const mongoDB = process.env.MONGO_URI;
 //Connecting to mongoose.
 const mongooseConnect = async() => {
   try {
-    await mongoose.connect(mongoDB, { dbName: process.env.MONGO_COLLECTION1 });
-    console.log("MongoDB User database Connected through Mongoose");
-    await mongoose.connect(mongoDB, { dbName: process.env.MONGO_COLLECTION2 });
-    console.log("MongoDB Michigan databse Connected through Mongoose");
+    (await mongoose.connect(mongoDB, { dbName: process.env.MONGO_DB }));
+    console.log("MongoDB Builder-Rolodex database Connected through Mongoose");
+    // await mongoose.connect(mongoDB, { dbName: process.env.MONGO_DB }).Collection(mongoDB, { dbName: process.env.MONGO_COLLECTION2 });
+    // console.log("MongoDB Michigan databse Connected through Mongoose");
   } catch (err) {
     console.log(err);
   }
