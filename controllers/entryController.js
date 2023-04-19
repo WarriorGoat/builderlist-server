@@ -1,45 +1,102 @@
-const Entry = require("../models/Entrys");
+const Entry = require("../models/Entries");
 
-//Request and display all blogs
-async function getAllEntrys(req, res) {
-  //query blogs
+//Request and display all entries
+const getAllEntries = async (req, res) => {
   try {
-    const allEntrys = Entry.find({});
+    const allEntries = await Entry.find({});
     res.json({
       success: true,
-      blogs: allEntrys,
+      entries: allEntries,
     });
   } catch (e) {
     console.log(`Error Point 1` + e);
   }
 }
 
-//Create a new blog
-async function createOneEntry(req, res, next) {
+//Create a new entry
+ const createOneEntry = async (req, res, next) => {
   try {
-    //parse out fields from POST request
-    const title = req.body.title;
-    const text = req.body.text;
-    const author = req.body.author;
-    const categories = req.body.category;
-    const year = req.body.year;
+
+    const newEntry = {
+      company: req.body.company,
+      author: req.body.author,
+      contactFirstName: req.body.contactFirstName,
+      contactLastName: req.body.contactLastName,
+      contactEmail: req.body.contactEmail,
+      companyAddress: {
+      streetNum: req.body.streetNum,
+      streetName: req.body.streetName,
+      city: req.body.city,
+      state: req.body.state,
+      zipCode: req.body.zipCode
+      },
+      companyWebSite: req.body.companyWebsite,
+      licenseInfo: {
+      licenseState: req.body.licenseState,
+      licenseNum: req.body.licenseNum,
+      licenseClass: req.body.licenseClass
+      },
+      workTypes: {
+      type0: req.body.workType0,
+      type1: req.body.workType1,
+      type2: req.body.workType2,
+      type3: req.body.workType3,
+      type4: req.body.workType4,
+      type5: req.body.workType5,
+      type6: req.body.workType6,
+      type7: req.body.workType7,
+      type8: req.body.workType8,
+      type9: req.body.workType9,
+      },
+      active: false,
+      freeEstimates: false
+
+    }
+
+    console.log(newEntry)
+
+    const createOne = await Entry.create(newEntry)
+
+    
+    
 
     //pass fields to new Entry model
-    const newEntry = new Entry({
-      title,
-      text,
-      author,
-      categories,
-      year,
-    });
+    // const newEntry = new Entry({
+    //   company,
+    //   author,
+    //   contactFirstName,
+    //   contactLastName,
+    //   contactEmail,
+    //     streetNum,
+    //     streetName,
+    //     city,
+    //     state,
+    //     zipCode,
+    //   companyWebSite,
+    //     licenseState,
+    //     licenseNum,
+    //     licenseClass,
+    //     type0,
+    //     type1,
+    //     type2,
+    //     type3,
+    //     type4,
+    //     type5,
+    //     type6,
+    //     type7,
+    //     type8,
+    //     type9,
+    //   active,
+    //   freeEstimates
+    // });
 
     //save our new entry to the database
-    const savedData = await newEntry.save();
+    // const savedData = await newEntry.save();
 
     //return the successful request to the user
     res.json({
       success: true,
-      blogs: savedData,
+      entry: createOne,
     });
   } catch (e) {
     console.log(typeof e);
@@ -60,6 +117,19 @@ async function getOneEntry(req, res, next) {
   }
 }
 
+// This section will update a single record, using the a dynamic id paramter.
+async function updateOneEntry(req, res, next) {
+}
+// This section will pull a multiple records, using a location paramter.
+async function getManyEntries(req, res, next) {
+  // try {
+  //   const oneEntry = Entry.findOne({ id: req.params.id });
+  //   res.json({ entry: oneEntry });
+  // } catch (error) {
+  //   res.status(500).send(error);
+  // }
+}
+
 // This section will pull a single record, using the a dynamic id paramter.
 async function deleteOneEntry(req, res, next) {
   try {
@@ -71,8 +141,10 @@ async function deleteOneEntry(req, res, next) {
 }
 
 module.exports = {
-  getAllEntrys,
+  getAllEntries,
   createOneEntry,
+  updateOneEntry,
   getOneEntry,
+  getManyEntries,
   deleteOneEntry
 };

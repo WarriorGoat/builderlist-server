@@ -15,12 +15,12 @@ userRoutes.post("/registration", usersController.registration);
 userRoutes.post("/login", usersController.logIn);
 
 //update an existing user
-userRoutes.patch("/update-user", usersController.updateUser);
+userRoutes.patch("/update-user/:loginId", usersController.updateUser);
 
 //display message depending on validity and status of login credentials
 userRoutes.get("/message", usersController.message);
 
 //delete an existing user account
-userRoutes.delete("/delete:loginId", usersController.deleteUser);
+userRoutes.delete("/delete/:loginId", usersController.deleteUser);
 
 module.exports = userRoutes;

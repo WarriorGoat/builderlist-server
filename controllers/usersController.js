@@ -28,6 +28,7 @@ const registration = async (req, res, next) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
+    const loginId = req.body.loginId;
     const password = req.body.password;
 
     const saltRounds = 5; // In a real application, this number would be somewhere between 5 and 10.  Higher number is more secure, but requires more processing time.
@@ -39,6 +40,7 @@ const registration = async (req, res, next) => {
       firstName: firstName,
       lastName: lastName,
       email: email,
+      loginId: loginId,
       password: passwordHash,
     });
 
@@ -62,14 +64,16 @@ const registration = async (req, res, next) => {
 // This section will allow a registered user to log in.
 const logIn = async (req, res, next) => {
   try {
-    const email = req.body.email;
+    const loginId = req.body.loginId;
     const password = req.body.password;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ loginId });
 
     if (!user) {
       res.json({ success: false, message: "Could not find user." }).status(204);
       return;
+    } else {
+      console.log("User Found");
     }
 
     const isPWValid = await validatePassword(password, user.password);
@@ -78,18 +82,21 @@ const logIn = async (req, res, next) => {
         .json({ success: false, message: "Password was incorrect." })
         .status(204);
       return;
+    } else {
+      console.log("Password Valid");
     }
 
-    const userType = email.includes("admin.com") ? "admin" : "user";
+    const userType = user.email.includes("admin.com") ? "admin" : "user";
     const data = {
       date: new Date(),
-      userId: user.id,
+      loginId: user.loginId,
       scope: userType,
-      email: email,
+      email: user.email,
     };
+    console.log(data);
 
     const token = generateUserToken(data);
-    res.json({ success: true, token, email });
+    res.json({ success: true, token });
     return;
   } catch (error) {
     console.error(error);
@@ -118,14 +125,14 @@ const message = (req, res, next) => {
     if (userData && userData.scope === "user") {
       return res.json({
         success: true,
-        message: `I am a normal user with the email: ${userData.email}`,
+        message: `I am a normal user with login Id ${userData.loginId} and email: ${userData.email}`,
       });
     }
 
     if (userData && userData.scope === "admin") {
       return res.json({
         success: true,
-        message: `I am an admin user with the email ${userData.email}`,
+        message: `I am an admin user with login Id ${userData.loginId} and email ${userData.email}`,
       });
     }
     throw Error("Access Denied");
@@ -138,15 +145,58 @@ const message = (req, res, next) => {
   }
 };
 
-const updateUser = (req, res, next) => {
+//Update user data, except loginId & Password
+const updateUser = async (req, res, next) => {
+  try {
+    const userIdToFind = req.params.loginId;
+    const originalUser = await User.findOne({
+      loginId: userIdToFind,
+    });
+    if (typeof originalUser === "undefined") {
+      res.json({
+        success: false,
+        message: "Could not find user with that login ID.  Please try again.",
+      });
+      return;
+    }
+    await User.updateOne(
+      { loginId: userIdToFind },
+      {
+        $inc: { __v: 1 },
+        $set: {
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          email: req.body.email,
+          updatedAt: new Date(),
+        },
+      }
+    );
+  } catch (e) {
+    console.log(e);
+    res.json({
+      success: false,
+      error: String(e),
+    });
+  }
+  res.json({
+    success: true,
+    message: "user updated",
+  });
+};
 
-
-}
-
-const deleteUser = (req, res, next) => {
-
-
-}
+//Delete a user
+const deleteUser = async (req, res, next) => {
+  try {
+    const loginId = req.params.loginId;
+    const oneUser = await User.findOneAndRemove({ loginId });
+    res.json({
+      message: "Removed",
+      user: oneUser,
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
 module.exports = {
   getAllUsers,
@@ -154,5 +204,5 @@ module.exports = {
   logIn,
   message,
   updateUser,
-  deleteUser
+  deleteUser,
 };

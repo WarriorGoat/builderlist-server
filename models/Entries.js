@@ -8,8 +8,7 @@ const entrySchema = new mongoose.Schema({
   author: String, //username of contractor user
   contactFirstName: String,
   contactLastName: String,
-  userEmail: String,
-  companyEmail: String,
+  contactEmail: String,
   companyAddress: {
     streetNum: Number,
     streetName: String,
@@ -23,16 +22,22 @@ const entrySchema = new mongoose.Schema({
     licenseNum: String,
     licenseClass: String
   },
-  workTypes: [
-    "String",
-    "String",
-    "String"
-  ],
+  workTypes: {
+    type0: String,
+    type1: String,
+    type2: String,
+    type3: String,
+    type4: String,
+    type5: String,
+    type6: String,
+    type7: String,
+    type8: String,
+    type9: String    
+},
   active: Boolean,
   freeEstimates: Boolean,
   id: {type: String, default: ()=>uuidv4()},
   createdAt: {type: Date, default: Date.now},
-  createdBy: String,
   updatedAt: {type: Date, default: Date.now},
   updatedBy: String
 });
@@ -40,4 +45,4 @@ const entrySchema = new mongoose.Schema({
 
 
 //Register the model and make it available to other files
-module.exports = Entrys = mongoose.model("Entrys", entrySchema);
+module.exports = Entries = mongoose.model("Entries", entrySchema);

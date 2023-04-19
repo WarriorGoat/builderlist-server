@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 5000;
 //register routes
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
-const entrysRouter = require("./routes/entrys");
+const entriesRouter = require("./routes/entries");
 
 //connect through mongoose
 const { mongooseConnect } = require("./mongoose");
@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, "public")));
 //register routes
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/entrys", entrysRouter);
+app.use("/entries", entriesRouter);
 
 // catch 404 and forward to 404 error page
 app.all('*', (req, res) => {
