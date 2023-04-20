@@ -5,7 +5,7 @@ const {v4: uuidv4} = require("uuid");
 //Create a blogSchema
 const entrySchema = new mongoose.Schema({
   company: String,
-  author: String, //username of contractor user
+  author: String, 
   contactFirstName: String,
   contactLastName: String,
   contactEmail: String,
