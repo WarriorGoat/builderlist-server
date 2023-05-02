@@ -7,10 +7,10 @@ const { logger } = require("./middleware/logger");
 const { errorHandler } = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const corsOptions = require("./config/corsOptions");
+// const corsOptions = require("./config/corsOptions");
 const app = express();
 app.use(logger);
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 //assign port
 const PORT = process.env.PORT || 5000;
@@ -36,6 +36,9 @@ app.use(cookieParser());
 //allow access to static files
 app.use(express.static(path.join(__dirname, "public")));
 
+//enable CORS
+app.use(cors());
+app.options("*", cors());
 //register routes
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

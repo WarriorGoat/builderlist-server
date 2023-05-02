@@ -147,6 +147,7 @@ const updateOneEntry = async (req, res, next) => {
     message: "entry updated",
   });
 };
+
 // This section will pull a multiple records, using a location paramter (state).
 const getManyEntries = async (req, res, next) => {
   try {

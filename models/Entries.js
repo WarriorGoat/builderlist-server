@@ -9,6 +9,7 @@ const entrySchema = new mongoose.Schema({
   contactFirstName: String,
   contactLastName: String,
   contactEmail: String,
+  webAddress: String,
   companyAddress: {
     streetNum: Number,
     streetName: String,
@@ -16,7 +17,6 @@ const entrySchema = new mongoose.Schema({
     state: String,
     zipCode: Number
   },
-  companyWebSite: String,
   licenseInfo: {
     licenseState: String,
     licenseNum: String,
