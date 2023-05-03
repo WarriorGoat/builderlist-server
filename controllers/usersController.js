@@ -93,10 +93,11 @@ const logIn = async (req, res, next) => {
       scope: userType,
       email: user.email,
     };
-    console.log(data);
+    // console.log(data);
 
     const token = generateUserToken(data);
     res.json({ success: true, token });
+    console.log(token)
     return;
   } catch (error) {
     console.error(error);
@@ -106,7 +107,9 @@ const logIn = async (req, res, next) => {
 
 //display message depending on validity and status of login credentials
 const message = (req, res, next) => {
+  // console.log(req)
   try {
+    
     const tokenHeaderKey = process.env.TOKEN_HEADER_KEY;
     const token = req.header(tokenHeaderKey);
     console.log("token ", token);
@@ -119,7 +122,7 @@ const message = (req, res, next) => {
       });
     }
 
-    console.log(verifiedTokenPayload);
+    // console.log(verifiedTokenPayload);
     const userData = verifiedTokenPayload.userData;
 
     if (userData && userData.scope === "user") {

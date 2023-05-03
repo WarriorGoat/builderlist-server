@@ -27,7 +27,7 @@ const generateUserToken = (userData) => {
 const verifyToken = (token) => {
 	const jwtSecretKey = process.env.JWT_SECRET_KEY;
 	const verified = jwt.verify(token, jwtSecretKey);
-	console.log(verified)
+	// console.log(verified)
 	return verified
 }
 
