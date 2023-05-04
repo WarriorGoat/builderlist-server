@@ -13,7 +13,7 @@ const validatePassword = async (password, hashedPassword) => {
 };
 
 const generateUserToken = (userData) => {
-	const exp = Math.floor(Date.now() / 1000) + 60 * 60;
+	const exp = Math.floor(Date.now() / 1000) + 60 * 5;
 	const payload = {
 		userData,
 		exp: exp
